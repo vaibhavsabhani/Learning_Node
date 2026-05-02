@@ -6,6 +6,9 @@ import { fileURLToPath } from "url"; // ✅ FIX
 const app = express();
 dotenv.config();
 
+// Middleware to parse form data
+app.use(express.urlencoded());
+
 const PORT = process.env.PORT || 3000;
 
 // ✅ Fix for __dirname in ES Modules
@@ -13,7 +16,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 app.get("/", (req, res) => {
-  const startIndex = path.join(__dirname, "public", "index.html");
+  const startIndex = path.join(__dirname, "public", "formSubmit.html");
   res.sendFile(startIndex);
 });
 
@@ -30,6 +33,11 @@ app.get("/profile/:username/article/:slug", (req, res) => {
   const { username, slug } = req.params;
   const formattedSlug = slug.replace(/-/g, ' ');
   res.send("This is the article page for " + formattedSlug + " by " + username);
+});
+
+app.post("/contact", (req, res) => {
+  console.log(req.body,"<<<");
+  res.redirect("/");
 });
 
 app.listen(PORT, () => {
