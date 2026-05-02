@@ -17,13 +17,16 @@ app.get("/", (req, res) => {
   res.sendFile(startIndex);
 });
 
+app.get("/product", (req, res) => {
+  const { id, category } = req.query;
+  res.send("This is the product page for product ID: " + id + " in category: " + category);
+});
+
 app.get("/profile/:username", (req, res) => {
-  console.log(req.params);
   res.send("This is the profile page of " + req.params.username);
 });
 
 app.get("/profile/:username/article/:slug", (req, res) => {
-  console.log(req.params);
   const { username, slug } = req.params;
   const formattedSlug = slug.replace(/-/g, ' ');
   res.send("This is the article page for " + formattedSlug + " by " + username);
