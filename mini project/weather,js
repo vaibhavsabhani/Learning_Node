@@ -1,0 +1,26 @@
+import { get } from "http";
+import readline from "readline/promises"
+
+const weather_api_key = "0dc73386a13a908ab7904618f4f06c66"
+const baseUrl = `https://api.openweathermap.org/data/2.5/weather`;
+
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+})
+
+
+const getWeather = async(city) => {
+  const url = `${baseUrl}?q=${city}&appid=${weather_api_key}&units=metric`
+  try{
+   const res = await fetch(url)
+   const data = await res.json()
+   console.log(data)
+  }catch(err){
+    console.log("Error fetching weather data ❌", err)
+  }
+}
+
+const city =await rl.question("Enter city name : ")
+await getWeather(city)
+rl.close()
